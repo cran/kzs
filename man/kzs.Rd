@@ -62,16 +62,17 @@ kzs(x, delta, h, k = 1, show.edges = FALSE)
   time series or irregularly observed values in longitudinal data analysis.
 }
 \examples{
-  # This example was created with the intent to push the limits of KZS. The function has a wide peak and a 
-  # sharp peak; for a wide peak, you may permit stronger smoothing and for a sharp peak you may not (you would 
-  # be over-smoothing). The key here is to find satisfying values for the parameters.
+  # This example was created with the intent to push the limits of KZS. The 
+  # function has a wide peak and a sharp peak; for a wide peak, you may permit 
+  # stronger smoothing and for a sharp peak you may not (you would be over- 
+  # smoothing). The key here is to find satisfying values for the parameters.
   
   # EXAMPLE 1
   
   t <- seq(from=-round(400*pi),to=round(400*pi),by=.25) #Total time t
   tp <- seq(from=0,to=round(400*pi),by=.25)		#Positive t (includes t=0)
   tn <- seq(from=-round(400*pi),to=-.25,by=.25)         #Negative t
-  nobs <- 1:length(t)                                   #Number of total t values            
+  nobs <- 1:length(t)                                   #Sequence of obs            
   
   # True signal
   signalp <- 0.5*sin(sqrt((2*pi*abs(tp))/200))          #Positive side of signal
@@ -97,37 +98,29 @@ kzs(x, delta, h, k = 1, show.edges = FALSE)
   kzs(pts,delta=80,h=.2,k=3,show.edges=FALSE)
   lines(signal~t,col="red")
   title(main="KZS(delta=80, h=0.20, k=3, show.edges=false)")
-  legend("topright", c("True signal","KZS estimate"), cex=0.8, col=c("red","black"), lty=1:1, lwd=2, bty="n")
-  
-  # EXAMPLE 2 - Use same data with 5 iterations
-
-  kzs(pts,delta=80,h=.20,k=5,show.edges=FALSE)
-  lines(signal~t,col="red")
-  title(main="KZS(delta=80, h=0.20, k=5, show.edges=false)")
-  legend("topright", c("True signal","KZS estimate"), cex=0.8, col=c("red","black"), lty=1:1, lwd=2, bty="n")
+  legend("topright", c("True signal","KZS estimate"), cex=0.8, col=c("red","black"), 
+  lty=1:1, lwd=2, bty="n")
   
   
-  # EXAMPLE 3 - Rerun KZS on the same function after removing 20\% of the data points. 
-  #             This provides an opportunity to create a random scale along the variable X.
+  
+  # EXAMPLE 2 - Rerun KZS on the same function after removing 20\% of the data 
+  #             points. This provides an opportunity to create a random scale 
+  #             along the variable X.
   
   # Generate and remove a random 20\% of t 
   t20 <- sample(nobs,size=length(nobs)/5)        #Random 20\% of (t,yt)
   pts20 <- pts[-t20,]                            #Remove the 20\%
   
   # Plot of (t,yt) with 20\% removal
-  plot(pts20$yt~pts20$t,xlab='t',ylab=expression(paste(Y[t])),main='Signal buried in noise - 20\% removal',type="p")
+  plot(pts20$yt~pts20$t,xlab='t',ylab=expression(paste(Y[t])),main='Signal buried 
+  in noise - 20\% removal',type="p")
   
   # Apply KZS function - 3 iterations
   kzs(pts20,delta=80,h=.20,k=3,show.edges=FALSE)
   lines(signal~t,col="red")
   title(main="KZS(delta=80, h=0.20, k=3, show.edges=false) - 20\% removal")
-  legend("topright", c("True signal","KZS estimate"), cex=0.8, col=c("red","black"), lty=1:1, lwd=2, bty="n")
-   
-  # EXAMPLE 4 - Use same data with 5 iterations
-  kzs(pts20,delta=80,h=.20,k=5,show.edges=FALSE)
-  lines(signal~t,col="red")
-  title(main="KZS(delta=80, h=0.20, k=5, show.edges=false) - 20\% removal")
-  legend("topright", c("True signal","KZS estimate"), cex=0.8, col=c("red","black"), lty=1:1, lwd=2, bty="n")
+  legend("topright", c("True signal","KZS estimate"), cex=0.8, col=c("red","black"), 
+  lty=1:1, lwd=2, bty="n")
 }
 \keyword{ smooth }
 \keyword{ ts }
