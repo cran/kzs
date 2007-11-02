@@ -2,27 +2,26 @@
 \alias{kzs}
 \title{ Kolmogorov-Zurbenko Spline }
 \description{
-  The Kolmogorov-Zurbenko Spline function utilizes the moving average to construct
-  a piece-wise estimator of the underlying signal of the given input data.
+  The KZS utilizes splines to construct a smooth estimate of a signal buried in noise.
 }
 \usage{
 kzs(x, delta, h, k = 1, show.edges = FALSE)
 }
 \arguments{
   \item{x}{ 
-    a data frame of paired values X and Y. The data frame should consist of two columns
-    of data representing pairs (Xi, Yi), i = 1,..., \emph{n} and X, Y are real values; the first
-    column of data represents X values and the second column represents the corresponding
-    Y values.
+    a data frame of paired values X and Y. The data frame needs two columns of data 
+    representing pairs (Xi, Yi), i = 1,..., \emph{n} and X, Y are real values; the first
+    column of data represents the one dimensional input variable, X, and the second 
+    column, Y, denotes the variable to be used as the response.
   }
   \item{delta}{ 
-    the physical range of smoothing in terms of unit values of X.\cr
-	\emph{Restriction:} \eqn{\code{delta << Xn-X1}}  
+    the physical range of smoothing in terms of unit values of \code{X}.\cr
+	\emph{Restriction:} \eqn{\code{delta << (max(X) - min(X))}}  
   }
   \item{h}{ 
     a scale reading of all outcomes of the algorithm. More specifically, \code{h} is the interval
     width of a uniform scale covering the interval \eqn{\code{(Xn - delta/2, Xn + delta/2)}}.\cr
-	\emph{Restriction:} \eqn{\code{h < min(Xi+1 - Xi)}} and \eqn{\code{h > 0}}
+	\emph{Restriction:} \eqn{\code{h < min{X(i+1) - X(i)}}} and \eqn{\code{h > 0}}
   }
   \item{k}{ 
     the number of iterations the function will execute; \code{k} may also be interpreted as
@@ -30,9 +29,9 @@ kzs(x, delta, h, k = 1, show.edges = FALSE)
     a single iteration.
   }
   \item{show.edges}{ 
-    a logical indicating whether or not to display the resulting data beyond the range of X
-    values of the user-supplied data. If \code{FALSE}, then the extended edges are suppressed. By
-    default, this parameter is set to \code{FALSE}.
+    a logical indicating whether or not to display the resulting data beyond the range of \code{x}
+    values of the user-supplied data. If \code{false}, then the extended edges are suppressed. By
+    default, this parameter is set to \code{false}.
   }
 }
 \details{
@@ -40,26 +39,28 @@ kzs(x, delta, h, k = 1, show.edges = FALSE)
   X = x is often desired as a result of practical research. Usually we search for some simple 
   function Y(x) when given a data set of pairs (Xi, Yi). These pairs frequently resemble a 
   noisy plot, and thus Y(x) is desired to be a smooth outcome from the original data to capture 
-  important patterns in the data, while leaving out the noise. The \code{KZS} function estimates a 
-  solution to this problem through use of splines, which is a nonparametric estimator of a 
-  function.  Given a data set of pairs (Xi, Yi), splines estimate the smooth values of Y from 
-  X's. The \code{KZS} function Y(x) averages all values of Yi for all Xi within the range \code{delta} around 
-  each scale reading \code{hi} along the variable X. The \code{KZS} algorithm is designed to smooth all fast 
-  fluctuations in Y within the \code{delta}-range in X, while keeping ranges more then \code{delta} untouched. 
-  The separation of short scales less than \code{delta} and long scales more than \code{delta} is becoming more 
-  effective with higher \code{k}, while effective range of separation is becoming \eqn{\code{delta}*sqrt(\code{k})}. 
+  important patterns in the data, while leaving out the noise. The KZS estimates a 
+  solution to this problem through use of splines, a particular nonparametric estimator of a function.  
+  Given a data set of pairs (Xi, Yi), splines estimate the smooth values of Y from X's. The KZS 
+  averages all values of Y for all X within the range \code{delta} around each scale reading 
+  \code{hi} along the variable X. The KZS algorithm is designed to smooth all fast fluctuations 
+  in Y within the \code{delta}-range in X, while keeping ranges more then \code{delta} untouched. The 
+  separation of short scales less than \code{delta} and long scales more than \code{delta} is becoming 
+  more effective with higher \code{k}, while effective range of separation is becoming \eqn{\code{delta}*sqrt(\code{k})}. 
 }
 \value{
   a two-column data frame containing:
   \item{Xk }{X values resulting from execution of algorithm}
-  \item{Y(Xk) }{Y values resulting from execution of algorithm}
+  \item{Y(Xk) }{Response values resulting from execution of algorithm}
 }
 \references{ "Spline Smoothing." \url{http://economics.about.com/od/economicsglossary/g/splines.htm}}
-\author{ Derek Cyr \email{dc896148@albany.edu} and Igor Zurbenko \email{igorg.zurbenko@gmail.com} }
+\author{ Derek Cyr \email{cyr.derek@gmail.com} and Igor Zurbenko \email{igorg.zurbenko@gmail.com} }
+\seealso{ \code{\link{argkzs}} }
 \note{ 
-  The \code{KZS} function is designed for the general situation, including time series data. In many 
-  applications where variable X can be time, the \code{KZS} is resolving the problem of missing values in
-  time series or irregularly observed values in longitudinal data analysis.
+  KZS is designed for the general situation, including time series data. In many 
+  applications where the variable X can be time, KZS can resolve the problem of missing values in
+  time series or irregularly observed values in longitudinal data analysis.  KZS may take time to 
+  completely run depending on the size of the data set used and the number of iterations specified.
 }
 \examples{
   # This example was created with the intent to push the limits of KZS. The 

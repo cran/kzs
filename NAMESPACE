@@ -1,2 +1,2 @@
-import(graphics, stats)
-export(kzs)
+import(graphics, lattice, stats)
+export(argkzs, kzs, argskzs, skzs)
