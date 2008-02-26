@@ -1,2 +1,2 @@
-import(graphics, lattice, stats)
-export(argkzs, kzs, argskzs, skzs)
+import(graphics, grDevices, grid, lattice, stats)
+export(kzs.params, kzs, kzs.2d, kzs.md)

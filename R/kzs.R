@@ -1,40 +1,40 @@
-`kzs` <-
-function(x, delta, h, k=1, show.edges=FALSE)
-{
-if (h >= min(diff(sort(x[,1]))))
-stop("Invalid 'h': Value should be much less than the minimum difference of consecutive X values")  
-if (delta >= (max(x[,1])-min(x[,1])))
-stop("Invalid 'delta': Value should be much less than the difference of the max and min X values") 
-orig_data<-as.vector(x)
-xrange <- range(x)
-d <- delta/2
-v <- -delta/(2*h)
-for (i in 1:k) {
-data <- as.vector(x)                        
-maxx <- max(data[,1])                    
-minx <- min(data[,1])        
-yvals <- data[,2]                           
-ord <- sort(data[,1])                                                                                      
-Nk <- (maxx-minx)/h
-incrm <- seq(v,Nk-v,by=1)
-xk <- as.vector(ord[1]+(incrm*h))           
-zk <- numeric(length(xk))         
-for (j in 1:length(xk)) {
-w <- abs(ord-xk[j])              
-Ik <- yvals[w <= d]  
-zk[j] <- mean(Ik)   
+kzs <- function(y, x, delta, d, k = 1, edges = FALSE, plot = TRUE)
+{	
+	res <- diff(sort(x))
+	if(length(x) != length(y))
+		stop("The lengths of 'x' and 'y' must be equal")
+	if(d > min(res[res > 0]))
+		stop("'d' must be less than or equal to the minimum difference of consecutive X values")  
+	if(delta >= (max(x) - min(x)))
+		stop("'delta' must be much less than the difference of the max and min X values") 
+	h <- delta/2
+	xrange <- range(x)
+	for (i in 1:k) {
+		xi <- as.vector(x)                      
+		maxx <- max(xi)	                    
+		minx <- min(xi)			        
+		yvals <- y          
+		xk <- seq(minx - h, maxx + h, d)           
+		yk <- numeric(length(xk))
+       	for(j in 1:length(xk)) {
+			w <- abs(xi - xk[j])     	         
+			Ik <- which(w <= h)	
+			size <- length(Ik)	
+			Yik <- yvals[Ik]			
+			yk[j] <- (1 / size) * sum(Yik)	  
+		}                    
+		df <- data.frame(cbind(xk, yk))             
+		data <- na.omit(df)      
+		x <- data$xk
+		y <- data$yk            
+	}              	
+	if(edges == FALSE){
+		edgs <- data[data$xk >= min(xrange) & data$xk <= max(xrange), ]   
+		data <- as.data.frame(edgs)
+	}
+	if (plot == TRUE) {
+		plot(data$yk ~ data$xk, xlab = "xk", ylab = "yk", xlim = c(min(xrange), max(xrange)), 
+		     type = 'l', pch = 19, col = 'black')  
+	}
+	return(data)
 }
-Zk <- data.frame(zk)                      
-x <- data.frame(cbind(xk,Zk))              
-xf <- na.omit(x)                
-if (show.edges == FALSE){
-y2 <- x[-(1:(-v*k)),]
-y3 <- y2[-(nrow(y2):(nrow(y2)-(-v*k)+1)),]
-xj <- as.data.frame(y3)
-xf <- na.omit(xj)
-}
-plot(xf$zk~xf$xk,xlab=expression(paste(x[k])),ylab=expression(paste(Y(x[k]))),xlim=xrange,ylim=c(min(xf$zk),max(xf$zk)),type='l',pch=19,col='black')        
-}
-return(xf)
-}
-
