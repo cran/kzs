@@ -1,31 +1,31 @@
 \name{kzs.params}
 \alias{kzs.params}
-\title{ Boundary Values for KZS Parameters }
+\title{ Restrictions for KZS Parameters }
 \description{
-  For an \emph{n}-dimensional input data set, this function will calculate the values by
-  which the parameters \code{delta} and \code{d} are bounded by. 
+  For a \emph{d}-dimensional vector of input variables, this function will calculate the values by
+  which the parameters \code{smooth} and \code{scale} are bounded by. 
 }
 \usage{
 kzs.params(x, dimension)
 }
 \arguments{
   \item{x}{ 
-    a matrix or data frame containing the input data that is to be used in \code{kzs}, \code{kzs.2d}, 
+    a matrix or data frame containing the input variable(s) that is to be used in \code{kzs}, \code{kzs.2d}, 
     or \code{kzs.md}.
   }
   \item{dimension}{ 
-    an integer specifying the dimensionality of \code{x}.
+    an integer specifying the dimensionality of \code{x}; i.e, the number of columns in \code{x}.
   }
 }
 \details{
   The compilation of functions within the \pkg{kzs} package requires the specification of two 
-  parameters: the first is \code{delta}, the physical range of smoothing along each variable 
-  in \code{x}; the second is \code{d}, a scale reading of each corresponding input variable
-  in \code{x}. Each parameter is subject to two restrictions; \code{delta} and \code{d} must both
-  be positive real numbers, each \code{d} must be less than or equal to the difference of sorted, 
-  consecutive \code{x} values and each \code{delta} must be much less than the difference of the
-  maximum and minimum values for each corresponding input variable in \code{x}. Hence, for each 
-  input variable in \code{x}, there must be a corresponding \code{delta} and \code{d}. This function
+  parameters: the first is \code{smooth}, the range of smoothing along each variable in \code{x}; 
+  the second is \code{scale}, a scale reading of each corresponding input variable in \code{x}. 
+  Each parameter is subject to two restrictions; \code{smooth[i]} and \code{scale[i]} must be 
+  positive real numbers; \code{scale[i]} must be less than or equal to the difference of sorted, 
+  consecutive \code{x[,i]} values and \code{smooth[i]} must be much less than the difference of the
+  maximum and minimum values for its corresponding input variable, \code{x[,i]}. For each input 
+  variable in \code{x}, there must be a corresponding \code{smooth} and \code{scale}. This function
   was developed to be used prior to any of the functions within \pkg{kzs} in order to increase the 
   efficiency of use.
 }

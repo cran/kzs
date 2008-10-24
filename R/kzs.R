@@ -1,20 +1,19 @@
-kzs <- function(y, x, delta, d, k = 1, edges = FALSE, plot = TRUE)
+kzs <- function(y, x, smooth, scale, k = 1, edges = TRUE, plot = TRUE)
 {	
-	res <- diff(sort(x))
-	if(length(x) != length(y))
-		stop("The lengths of 'x' and 'y' must be equal")
-	if(d > min(res[res > 0]))
-		stop("'d' must be less than or equal to the minimum difference of consecutive X values")  
-	if(delta >= (max(x) - min(x)))
-		stop("'delta' must be much less than the difference of the max and min X values") 
-	h <- delta/2
+	x <- sort(x) 
+	dx <- diff(x)
+	if(scale > min(dx[dx > 0]))
+		stop("'scale' must be less than or equal to the minimum difference of consecutive X values")  
+	if(smooth >= (max(x) - min(x)))
+		stop("'smooth' must be much less than the difference of the max and min X values") 
+	h <- smooth/2
 	xrange <- range(x)
 	for (i in 1:k) {
 		xi <- as.vector(x)                      
 		maxx <- max(xi)	                    
 		minx <- min(xi)			        
 		yvals <- y          
-		xk <- seq(minx - h, maxx + h, d)           
+		xk <- seq(minx - h, maxx + h, scale)           
 		yk <- numeric(length(xk))
        	for(j in 1:length(xk)) {
 			w <- abs(xi - xk[j])     	         

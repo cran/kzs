@@ -1,20 +1,18 @@
-kzs.2d <- function(y, x, delta, d, k = 1, edges = FALSE, plot = TRUE)
+kzs.2d <- function(y, x, smooth, scale, k = 1, edges = TRUE, plot = TRUE)
 {	
 	s <- matrix(0, nrow = nrow(x) - 1, ncol = ncol(x))
-	if(nrow(x) != length(y))
-		stop("The lengths of 'x' and 'y' must be equal")
 	for (i in 1:2) {
 		s[,i] <- diff(sort(x[,i]))
-		if(d[i] > min(s[,i][s[,i] > 0]))     
-			stop("Each 'd' must be less than or equal to the minimum of the difference of consecutive X values") 
-		if(d[i] <= 0)
-			stop("Each 'd' must be a positive real number")
-		if(delta[i] >= (max(x[,i]) - min(x[,i])))
-			stop("Each 'delta' must be much less than the difference of the max and min X") 
-		if(delta[i] <= 0)
-			stop("Each 'delta' must be a positive real number")
+		if(scale[i] > min(s[,i][s[,i] > 0]))     
+			stop("Each 'scale' must be less than or equal to the minimum of the difference of consecutive X values") 
+		if(scale[i] <= 0)
+			stop("Each 'scale' must be a positive real number")
+		if(smooth[i] >= (max(x[,i]) - min(x[,i])))
+			stop("Each 'smooth' must be much less than the difference of the max and min X") 
+		if(smooth[i] <= 0)
+			stop("Each 'smooth' must be a positive real number")
 	}
-	h <- delta/2
+	h <- smooth/2
 	x1r <- x[,1]
 	x2r <- x[,2]
 	for (i in 1:k) {   
@@ -25,7 +23,7 @@ kzs.2d <- function(y, x, delta, d, k = 1, edges = FALSE, plot = TRUE)
 		yvals <- y
 		xks <- vector("list", 2)
 		for (i in 1:2) {
-			xks[[i]] <- seq(minx[i] - h[i], maxx[i] + h[i], d[i])
+			xks[[i]] <- seq(minx[i] - h[i], maxx[i] + h[i], scale[i])
 		}
 		xk <- do.call("expand.grid", xks)   
 		colnames(xk) <- c("x1", "x2")

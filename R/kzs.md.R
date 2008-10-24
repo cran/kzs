@@ -1,20 +1,20 @@
-kzs.md <- function(y, x, delta, d, k = 1, edges = FALSE)
+kzs.md <- function(y, x, smooth, scale, k = 1, edges = TRUE)
 {	
 	s <- matrix(0, nrow = nrow(x)-1, ncol = ncol(x))
 	if(nrow(x) != length(y))
 		stop("The lengths of 'x' and 'y' must be equal")
 	for (i in 1:ncol(x)) {
 		s[,i] <- diff(sort(x[,i]))
-		if (d[i] > min(s[,i][s[,i] > 0]))     
-			stop("Invalid 'd': For each X, 'd' must be less than or equal to the minimum of the difference of consecutive X values") 
-		if (d[i] <= 0)
-			stop("Invalid 'd': For each X, 'd' must be a positive real number")
-		if (delta[i] >= (max(x[,i]) - min(x[,i])))
-			 stop("Invalid 'delta': For each X, 'delta' must be less than the difference of the max and min X") 
-		if (delta[i] <= 0)
-			stop("Invalid 'delta': For each X, 'delta' must be a positive real number")
+		if (scale[i] > min(s[,i][s[,i] > 0]))     
+			stop("Invalid 'scale': For each X, 'scale' must be less than or equal to the minimum of the difference of consecutive X values") 
+		if (scale[i] <= 0)
+			stop("Invalid 'scale': For each X, 'scale' must be a positive real number")
+		if (smooth[i] >= (max(x[,i]) - min(x[,i])))
+			 stop("Invalid 'smooth': For each X, 'smooth' must be less than the difference of the max and min X") 
+		if (smooth[i] <= 0)
+			stop("Invalid 'smooth': For each X, 'smooth' must be a positive real number")
 	}
-	h <- delta/2 
+	h <- smooth/2 
 	xd <- as.data.frame(x)
 	vars <- ncol(x)    
 	for (j in 1:k) {
@@ -24,7 +24,7 @@ kzs.md <- function(y, x, delta, d, k = 1, edges = FALSE)
 		minx <- apply(xi, 2, min)			        
 		xks <- vector("list", ncol(xi))
 		for(i in 1:ncol(xi)) {
-			xks[[i]] <- seq(minx[i] - h[i], maxx[i] + h[i], d[i])
+			xks[[i]] <- seq(minx[i] - h[i], maxx[i] + h[i], scale[i])
 		}
 		xk <- do.call("expand.grid", xks)	
 		yk <- numeric(length = nrow(xk))
