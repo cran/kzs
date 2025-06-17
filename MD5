@@ -1,0 +1,13 @@
+ea13bc0d23e6fdaf1ed046998d39853c *DESCRIPTION
+91fa353f6edee30c385a594e8ecd3844 *NAMESPACE
+055be02986a6f5f7700280b2b57eb097 *R/kzs.2d.R
+534044fc30f801faa5435c7ee6b9e33c *R/kzs.R
+fb93747db499a5a208f1e57b8e5e5637 *R/kzs.md.R
+3dc8bca687c46ce8a11da26d0e4f54cf *R/kzs.params.R
+5031b9af03dbae408c189bbea9e267e1 *data/datalist
+bf82ac2a72bf399bc91d8cee3a1cd2b0 *data/kzs.3d_data.rda
+fa9bc4039125a60805c75d8c48631a0b *man/kzs.2d.Rd
+d55522b7fc8298ce132511a03cb3ecec *man/kzs.3d_data.Rd
+70801cfd9f5a16e095ed706eb422be0c *man/kzs.Rd
+5eb4585672bf108a5afda6334c673f07 *man/kzs.md.Rd
+ae78495c51c0041f4d5fb6e699b1169d *man/kzs.params.Rd
